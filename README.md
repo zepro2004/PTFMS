@@ -21,6 +21,8 @@ Public Transit Fleet Management System (PTFMS) is a Java / Jakarta EE applicatio
 13. [Future Enhancements](#future-enhancements)
 14. [License](#license)
 
+> Docker support included: see Docker & Compose section below for running locally.
+
 ## Architecture
 Logical 3‑tier structure:
 - **Presentation Layer** – Jakarta Servlets that compose HTML responses + static assets in `src/main/webapp/assets` (no templating engine yet)
@@ -176,3 +178,29 @@ Small improvements (typos, docs, minor refactors) are welcome via PR. For larger
 
 ## License
 MIT License © 2025 Louis Bertrand Ntwali. See [LICENSE](LICENSE) for full text.
+
+## Docker & Compose
+Quick local run (builds app + MySQL):
+```bash
+docker compose up -d --build
+```
+Then visit http://localhost:8080/
+
+Default credentials are not auto-seeded; register a user through the UI.
+
+Environment variables (override in compose or deployment):
+- DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
+
+Rebuild after code changes:
+```bash
+docker compose build app && docker compose up -d
+```
+
+Tear down (keeps DB volume):
+```bash
+docker compose down
+```
+Remove volume too:
+```bash
+docker compose down -v
+```

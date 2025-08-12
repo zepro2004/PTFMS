@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  database:
+    image: mysql:8.4
+    container_name: ptfms-mysql
+    environment:
+      MYSQL_DATABASE: ptfms
+      MYSQL_USER: ptfms_user
+      MYSQL_PASSWORD: changeMe
+      MYSQL_ROOT_PASSWORD: rootChangeMe
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  app:
+    build: .
+    container_name: ptfms-app
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_NAME: ptfms
+      DB_USER: ptfms_user
+      DB_PASS: changeMe
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  db_data:

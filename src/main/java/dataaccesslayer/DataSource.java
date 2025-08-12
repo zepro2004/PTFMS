@@ -34,9 +34,19 @@ public class DataSource {
    * @throws SQLException if connection fails
    */
   public static Connection getConnection() throws SQLException {
-    String url = properties.getProperty("jdbc.url");
-    String username = properties.getProperty("jdbc.username");
-    String password = properties.getProperty("jdbc.password");
+    // Allow environment variables to override properties (useful for Docker / cloud)
+    String envUrl = System.getenv("DB_URL");
+    String envHost = System.getenv("DB_HOST");
+    String envPort = System.getenv("DB_PORT");
+    String envName = System.getenv("DB_NAME");
+    String envUser = System.getenv("DB_USER");
+    String envPass = System.getenv("DB_PASS");
+
+    String url = envUrl != null && !envUrl.isBlank()
+        ? envUrl
+        : buildUrlFromParts(envHost, envPort, envName, properties.getProperty("jdbc.url"));
+    String username = firstNonBlank(envUser, properties.getProperty("jdbc.username"));
+    String password = firstNonBlank(envPass, properties.getProperty("jdbc.password"));
 
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
@@ -45,5 +55,17 @@ public class DataSource {
     }
 
     return DriverManager.getConnection(url, username, password);
+  }
+
+  private static String firstNonBlank(String primary, String fallback) {
+    return (primary != null && !primary.isBlank()) ? primary : fallback;
+  }
+
+  private static String buildUrlFromParts(String host, String port, String dbName, String fallbackUrl) {
+    if (host == null || host.isBlank() || dbName == null || dbName.isBlank()) {
+      return fallbackUrl; // insufficient parts; use provided property
+    }
+    String resolvedPort = (port != null && !port.isBlank()) ? port : "3306";
+    return "jdbc:mysql://" + host + ":" + resolvedPort + "/" + dbName;
   }
 }

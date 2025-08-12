@@ -1,2 +1,6 @@
 .vscode
 target/
+src/main/resources/database.properties
+src/main/resources/*.local.properties
+*.env
+*.env.*
