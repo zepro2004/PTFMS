@@ -122,6 +122,21 @@ CREATE TABLE alerts (
     ON DELETE CASCADE
 );
 
+-- Reports table
+CREATE TABLE reports (
+  report_id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  report_type ENUM('FLEET', 'MAINTENANCE', 'FUEL', 'OPERATOR', 'GPS') NOT NULL,
+  data_json TEXT,
+  generated_by INT NOT NULL,
+  generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  period_start TIMESTAMP,
+  period_end TIMESTAMP,
+  format ENUM('HTML', 'PDF', 'JSON') DEFAULT 'JSON',
+  status ENUM('PENDING', 'COMPLETED', 'FAILED') DEFAULT 'PENDING',
+  FOREIGN KEY (generated_by) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
 -- 5) Insert sample data for testing
 -- Sample users (passwords are BCrypt hashed for 'password123')
 INSERT INTO users (name, email, username, password_hash, role) VALUES 
@@ -172,18 +187,3 @@ INSERT INTO reports (title, report_type, data_json, generated_by, generated_at, 
 ('GPS Tracking and Route Analysis', 'GPS', '{"total_tracking_points": 1250, "routes_covered": 3, "average_speed": 45.2, "stops_recorded": 156, "route_efficiency": 87.3}', 2, '2025-08-04 16:45:00', '2025-07-15 00:00:00', '2025-08-04 23:59:59', 'PDF', 'COMPLETED'),
 ('Daily Fleet Status Report', 'FLEET', '{"vehicles_inspected": 3, "alerts_generated": 3, "fuel_refills": 2, "maintenance_due": 2, "operational_status": "Normal"}', 2, '2025-08-06 07:30:00', '2025-08-05 00:00:00', '2025-08-05 23:59:59', 'HTML', 'COMPLETED'),
 ('Quarterly Maintenance Forecast', 'MAINTENANCE', '{"predicted_costs": 2500.00, "scheduled_services": 12, "priority_vehicles": ["BUS001", "LRT001"], "budget_variance": -150.00}', 1, '2025-08-03 10:20:00', '2025-08-01 00:00:00', '2025-10-31 23:59:59', 'JSON', 'FAILED');
-
--- Reports table
-CREATE TABLE reports (
-  report_id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  report_type ENUM('FLEET', 'MAINTENANCE', 'FUEL', 'OPERATOR', 'GPS') NOT NULL,
-  data_json TEXT,
-  generated_by INT NOT NULL,
-  generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  period_start TIMESTAMP,
-  period_end TIMESTAMP,
-  format ENUM('HTML', 'PDF', 'JSON') DEFAULT 'JSON',
-  status ENUM('PENDING', 'COMPLETED', 'FAILED') DEFAULT 'PENDING',
-  FOREIGN KEY (generated_by) REFERENCES users(user_id) ON DELETE CASCADE
-);
