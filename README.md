@@ -5,6 +5,28 @@
 ## Overview
 Public Transit Fleet Management System (PTFMS) is a Java / Jakarta EE application that helps transit agencies monitor, track, and optimize operations of buses, light rail, and train assets. It centralizes vehicle inventory, maintenance scheduling, fuel usage, GPS events, alerts, and analytics—exposed through role‑based dashboards.
 
+## 🚀 Quick Deployment
+
+**One-command deployment with Docker:**
+
+### Windows
+```powershell
+.\deploy.ps1
+```
+
+### Linux/macOS
+```bash
+./deploy.sh
+```
+
+**Access the application at:** http://localhost:8080
+
+**Test credentials:**
+- Manager: `jmanager` / `password123`
+- Operator: `soperator` / `password123`
+
+📖 **Detailed deployment guide:** [DEPLOYMENT.md](DEPLOYMENT.md)
+
 ## Table of Contents
 1. [Overview](#overview)
 2. [Architecture](#architecture)

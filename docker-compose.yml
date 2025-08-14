@@ -11,8 +11,9 @@ services:
     command: ["--default-authentication-plugin=mysql_native_password"]
     volumes:
       - db_data:/var/lib/mysql
+    # Conditional port exposure - only if DB_PORT is set
     ports:
-      - "3306:3306"
+      - "${DB_PORT:-127.0.0.1:65432}:3306"  # Hidden port if DB_PORT not set
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 30s
@@ -33,7 +34,7 @@ services:
       DB_USER: ptfms_user
       DB_PASS: changeMe
     ports:
-      - "8080:8080"
+      - "${APP_PORT:-8080}:8080"  # Default 8080, override with APP_PORT env var
     restart: unless-stopped
 
 volumes:

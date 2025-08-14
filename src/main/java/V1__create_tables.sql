@@ -140,9 +140,9 @@ CREATE TABLE reports (
 -- 5) Insert sample data for testing
 -- Sample users (passwords are BCrypt hashed for 'password123')
 INSERT INTO users (name, email, username, password_hash, role) VALUES 
-('John Manager', 'john.manager@ptfms.com', 'jmanager', '$2a$10$8K1p/a0dRxKU4X1cVhCLCe7vNX4kH0/i1rXo3qH7YF.yI2dN8u.SW', 'Manager'),
-('Sarah Operator', 'sarah.operator@ptfms.com', 'soperator', '$2a$10$8K1p/a0dRxKU4X1cVhCLCe7vNX4kH0/i1rXo3qH7YF.yI2dN8u.SW', 'Operator'),
-('Mike Wilson', 'mike.wilson@ptfms.com', 'mwilson', '$2a$10$8K1p/a0dRxKU4X1cVhCLCe7vNX4kH0/i1rXo3qH7YF.yI2dN8u.SW', 'Manager');
+('John Manager', 'john.manager@ptfms.com', 'jmanager', '$2a$10$8.ZDE6wo35VxLBJBP/0K2upjcgOVKnKqzAclFtOPfPDenMrhYijO.', 'Manager'),
+('Sarah Operator', 'sarah.operator@ptfms.com', 'soperator', '$2a$10$8.ZDE6wo35VxLBJBP/0K2upjcgOVKnKqzAclFtOPfPDenMrhYijO.', 'Operator'),
+('Mike Wilson', 'mike.wilson@ptfms.com', 'mwilson', '$2a$10$8.ZDE6wo35VxLBJBP/0K2upjcgOVKnKqzAclFtOPfPDenMrhYijO.', 'Manager');
 
 -- Sample vehicles
 INSERT INTO vehicles (vin, vehicle_number, vehicle_type, make, model, year, fuel_type, consumption_rate, max_passengers, current_route, status) VALUES 
