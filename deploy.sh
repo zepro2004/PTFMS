@@ -17,14 +17,8 @@ NC='\033[0m' # No Color
 CLEAN=false
 SKIP_BUILD=false
 SHOW_HELP=false
-CUSTOM_APP_PORT="if [[ "$CLEAN" == true ]]; then
-    log_status "Cleaning up existing deployment..."
-    docker-compose down -v 2>/dev/null || true
-    docker rmi ptfms-app 2>/dev/null || true
-fiOM_DB_PORT=""
-
-# Check prerequisites first
-check_prerequisites
+CUSTOM_APP_PORT=""
+CUSTOM_DB_PORT=""
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -316,6 +310,9 @@ if [ "$SHOW_HELP" = true ]; then
     show_help
     exit 0
 fi
+
+# Check prerequisites before starting
+check_prerequisites
 
 echo ""
 echo -e "${BLUE}██████╗ ████████╗███████╗███╗   ███╗███████╗${NC}"
