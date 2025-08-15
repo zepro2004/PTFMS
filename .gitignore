@@ -1,6 +1,10 @@
 .vscode
 target/
+logs/
 src/main/resources/database.properties
 src/main/resources/*.local.properties
-*.env
-*.env.*
+
+# Environment file (contains sensitive data)
+.env.docker
+# Keep example file for documentation
+!.env.example

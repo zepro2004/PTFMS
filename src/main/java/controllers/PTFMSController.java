@@ -26,6 +26,8 @@ import transferobjects.VehicleDTO;
  * presentation
  * layer (servlets) and the business layer services.
  * 
+ * 🔥 HOT RELOADING TEST - Development Environment Active! (Updated at 19:29)
+ * 
  * Key Features:
  * - Complete user management with proper registration/authentication
  * - Comprehensive vehicle management with Builder/Command patterns
