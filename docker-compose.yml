@@ -4,16 +4,16 @@ services:
     image: mysql:8.0
     container_name: ptfms-mysql
     environment:
-      MYSQL_DATABASE: ptfms
-      MYSQL_USER: ptfms_user
-      MYSQL_PASSWORD: changeMe
-      MYSQL_ROOT_PASSWORD: rootChangeMe
+      MYSQL_DATABASE: ${PROD_MYSQL_DATABASE:-ptfms}
+      MYSQL_USER: ${PROD_MYSQL_USER:-ptfms_user}
+      MYSQL_PASSWORD: ${PROD_MYSQL_PASSWORD:-changeMe}
+      MYSQL_ROOT_PASSWORD: ${PROD_MYSQL_ROOT_PASSWORD:-rootChangeMe}
     command: ["--default-authentication-plugin=mysql_native_password"]
     volumes:
       - db_data:/var/lib/mysql
     # Conditional port exposure - only if DB_PORT is set
     ports:
-      - "${DB_PORT:-127.0.0.1:65432}:3306"  # Hidden port if DB_PORT not set
+      - "${PROD_DB_PORT:-127.0.0.1:65432}:3306"  # Hidden port if PROD_DB_PORT not set
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 30s
@@ -30,11 +30,11 @@ services:
     environment:
       DB_HOST: database
       DB_PORT: 3306
-      DB_NAME: ptfms
-      DB_USER: ptfms_user
-      DB_PASS: changeMe
+      DB_NAME: ${PROD_MYSQL_DATABASE:-ptfms}
+      DB_USER: ${PROD_MYSQL_USER:-ptfms_user}
+      DB_PASS: ${PROD_MYSQL_PASSWORD:-changeMe}
     ports:
-      - "${APP_PORT:-8080}:8080"  # Default 8080, override with APP_PORT env var
+      - "${PROD_APP_PORT:-8080}:8080"  # Production app port
     restart: unless-stopped
 
 volumes:

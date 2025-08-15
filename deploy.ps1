@@ -215,6 +215,38 @@ Write-Host ""
 # Check prerequisites first
 Test-Prerequisites
 
+# Verify .env file exists
+Write-Status "Checking environment configuration..."
+if (Test-Path ".env") {
+    Write-Success "✅ Environment configuration found (.env)"
+} else {
+    Write-Error "❌ .env file not found! Creating default configuration..."
+    @"
+# PTFMS Environment Configuration
+# Production Environment
+PROD_APP_PORT=8082
+PROD_DB_PORT=3307
+PROD_ADMINER_PORT=8083
+PROD_MYSQL_ROOT_PASSWORD=rootChangeMe
+PROD_MYSQL_DATABASE=ptfms
+PROD_MYSQL_USER=ptfms_user
+PROD_MYSQL_PASSWORD=changeMe
+
+# Development Environment  
+DEV_APP_PORT=8084
+DEV_DB_PORT=3308
+DEV_ADMINER_PORT=8085
+DEV_DEBUG_PORT=5005
+DEV_MYSQL_ROOT_PASSWORD=rootChangeMe_dev
+DEV_MYSQL_DATABASE=ptfms_dev
+DEV_MYSQL_USER=ptfms_dev_user
+DEV_MYSQL_PASSWORD=changeMe_dev
+DEV_JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
+DEV_CATALINA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+"@ | Out-File -FilePath ".env" -Encoding UTF8
+    Write-Success "✅ Created default environment configuration"
+}
+
 # Check port availability and resolve conflicts
 Write-Status "Checking port availability..."
 
